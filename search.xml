@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Redis中的pipline]]></title>
+    <url>%2F2018%2F03%2F07%2FRedis%E4%B8%AD%E7%9A%84pipline%2F</url>
+    <content type="text"><![CDATA[什么是流水线 流水线就是将批量命令打包，通过一次网络传输进行操作执行的过程。 批量网络命令通信：n次时间 = n次网络时间 + n次执行时间 流水线命令通信：n次时间 = 1次网络时间 + n次执行时间 主要是为了解决命令在网络传输中耗时长的问题 与原生操作的对比原生批量操作命令如mset,mset等是原子的，而pipline不是原子操作。]]></content>
+      <categories>
+        <category>redis学习</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Redis慢查询]]></title>
+    <url>%2F2018%2F03%2F07%2FRedis%E6%85%A2%E6%9F%A5%E8%AF%A2%2F</url>
+    <content type="text"><![CDATA[redis的生命周期 redis的慢查询发生在第三个阶段 关于慢查询的两个配置slowlog-max-len 储存慢查询信息的队列长度 在redis中，慢查询语句存储在一个固定长度的先进先出队列当中，它们被保存在内存当中。 slowlog-log-slower-than 慢查询阈值 单位是微秒 slowlog-log-slower-than=0,记录所有命令 slowlog-log-slower-than&lt;0,不记录慢查询 慢查询命令 slowlog get[n]: 获取慢查询队列，n为获取的数量 slowlog len: 获取慢查询队列的长度 slow reset: 清空慢查询队列 配置慢查询注意事项 slowlog-max-len不要设置过大，默认10ms，通常1ms slowlog-log-slower-than不要设置过小，通常1000左右 理解生命周期 定期持久化慢查询]]></content>
+      <categories>
+        <category>redis学习</category>
+      </categories>
+      <tags>
+        <tag>redis</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Redis的特性]]></title>
     <url>%2F2018%2F03%2F05%2FRedis%E7%9A%84%E7%89%B9%E6%80%A7%2F</url>
     <content type="text"><![CDATA[速度快 数据存在内存（主要原因）; 使用C语言编写; 采用单线程线程模型 持久化（断电不丢失）Redis所有数据保存在内存当中，对数据的更新将异步的保存在磁盘中。 多种数据机构 主要数据结构 字符串 (String) 哈希 (Hash Tables) 列表（Linked Lists） 集合 (Sets) 有序集合 (Sorted Sets) 衍生数据结构 位图（BitMaps） 超小内存唯一值计数（HyperLogLog） 地理信息定位（GEO） 支持多种客户端语言支持像java、php、python等多种主流语言 功能丰富 发布订阅 Lua脚本 简单事务功能 pipeline “简单” 不依赖外部库; 单线程编程模型，开发容易 主从复制高可用、分布式 Redis-Sentinel(v2.8)支持高可用; Redis-Cluster(v3.0)支持分布式]]></content>

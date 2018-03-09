@@ -122,7 +122,7 @@
 
 
 
-  <title>Redis中的pipline | Renhao Li's Blog</title>
+  <title>关于订单状态自动更新的思考和实现 | Renhao Li's Blog</title>
   
 
 
@@ -296,7 +296,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://galaxyhao.github.io/2018/03/07/Redis中的pipline/">
+    <link itemprop="mainEntityOfPage" href="https://galaxyhao.github.io/2018/03/09/关于订单状态自动更新的思考和实现/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="LRHest">
@@ -313,7 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Redis中的pipline</h1>
+          <h1 class="post-title" itemprop="name headline">关于订单状态自动更新的思考和实现</h1>
         
 
         <div class="post-meta">
@@ -325,7 +325,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-07T13:32:21+08:00">2018-03-07</time>
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-09T13:32:32+08:00">2018-03-09</time>
             
 
             
@@ -345,7 +345,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/redis学习/" itemprop="url" rel="index"><span itemprop="name">redis学习</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/系统架构/" itemprop="url" rel="index"><span itemprop="name">系统架构</span></a></span>
 
                 
                 
@@ -379,13 +379,22 @@
       
 
       
-        <h2 id="什么是流水线"><a href="#什么是流水线" class="headerlink" title="什么是流水线"></a>什么是流水线</h2><ul>
-<li>流水线就是将批量命令打包，通过一次网络传输进行操作执行的过程。</li>
-<li>批量网络命令通信：n次时间 = n次网络时间 + n次执行时间</li>
-<li>流水线命令通信：n次时间 = 1次网络时间 + n次执行时间</li>
-<li>主要是为了解决命令在网络传输中耗时长的问题</li>
+        <h1 id="问题描述（背景）"><a href="#问题描述（背景）" class="headerlink" title="问题描述（背景）"></a>问题描述（背景）</h1><p>在所有电商交易平台中都会遇到订单状态需要自动流转的问题，比如用户下单未付款30分钟后自动关闭订单、在商家发货15天之后如用户未确认收货自动将订单变为收货状态等等。我查找了一些相关的资料，发现有很多解决方案，下面将列出几个我认为比较经典的方案。</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="1-被动更新"><a href="#1-被动更新" class="headerlink" title="1.被动更新"></a>1.被动更新</h2><p>这是最笨也是最麻烦的办法，就是在用户每一次操作时，都需要进行一个订单状态及时间的判断，假设用户一直没有对用户进行操作，那么订单的状态永远不会被更新。</p>
+<ul>
+<li>缺点：每次订单操作前都会对订单状态进行判断，假设订单数量很大时，会浪费大量资源；而且随着订单操作方法越来越多，会变得非常不好管理。</li>
 </ul>
-<h2 id="与原生操作的对比"><a href="#与原生操作的对比" class="headerlink" title="与原生操作的对比"></a>与原生操作的对比</h2><p>原生批量操作命令如mset,mset等是原子的，而pipline不是原子操作。</p>
+<h2 id="2-轮询"><a href="#2-轮询" class="headerlink" title="2.轮询"></a>2.轮询</h2><p>这也是一个比较直接的思路，可以利用Linux中的cron定时任务来定时扫订单表，取出所有需要更新状态的订单进行更新操作。</p>
+<ul>
+<li>缺点：第一个是轮序的时间粒度很难把握，粒度大的话会导致很多订单状态更新的不够及时，力度小的话或耗费大量的资源；另一个就是随着时间的增加，数据库中的订单数量会越来越多，全表扫描会占用数据库大量资源。</li>
+</ul>
+<h2 id="3-利用redis做延迟消息队列（改进方法2中的不足）"><a href="#3-利用redis做延迟消息队列（改进方法2中的不足）" class="headerlink" title="3.利用redis做延迟消息队列（改进方法2中的不足）"></a>3.利用redis做延迟消息队列（改进方法2中的不足）</h2><p>由于最近学了redis，就在思考怎么使用redis来解决这个问题，毕竟相同配置下的redis的QPS/TPS要远远大于mysql的，而且也不能像方法2中的那样毫无区分的进行全表扫描，那样不但效率低而且会浪费大量的资源。能不能只把有可能会进行自动更新状态的订单放到redis中呢，其实这样就是一个延迟消息队列的雏形了。那么还有没有需要改进的地方呢，上面说到轮询的时间粒度是很难把握的，那能不能用动态的时间扫一个队列呢？我们知道redis中有一个叫做score set(有序集合)的数据类型，我们可以把要更新的时间写到有序集合的score中，一个有序集合按照由小到大排列，这样的话每个队列的第一个元素中的score就决定了我们timer定时器的休眠时间。</p>
+<p>  下面总结一下改进的地方：</p>
+<ol>
+<li>使用消息队列的结构替代方法2中的全表扫描，更多的节省了资源，提高了效率</li>
+<li>根据队列首个元素的延迟时间动态规划定时器的扫描间隔，避免无必要的扫描</li>
+<li>能够灵活的添加、删除延迟任务</li>
+</ol>
 
       
     </div>
@@ -432,7 +441,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/redis/" rel="tag"># redis</a>
+            <a href="/tags/系统架构/" rel="tag"># 系统架构</a>
+          
+            <a href="/tags/延迟消息/" rel="tag"># 延迟消息</a>
           
         </div>
       
@@ -445,8 +456,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/07/Redis慢查询/" rel="next" title="Redis慢查询">
-                <i class="fa fa-chevron-left"></i> Redis慢查询
+              <a href="/2018/03/07/Redis中的pipline/" rel="next" title="Redis中的pipline">
+                <i class="fa fa-chevron-left"></i> Redis中的pipline
               </a>
             
           </div>
@@ -454,10 +465,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/03/09/关于订单状态自动更新的思考和实现/" rel="prev" title="关于订单状态自动更新的思考和实现">
-                关于订单状态自动更新的思考和实现 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -620,7 +627,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是流水线"><span class="nav-number">1.</span> <span class="nav-text">什么是流水线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与原生操作的对比"><span class="nav-number">2.</span> <span class="nav-text">与原生操作的对比</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题描述（背景）"><span class="nav-number">1.</span> <span class="nav-text">问题描述（背景）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决方案"><span class="nav-number">2.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-被动更新"><span class="nav-number">2.1.</span> <span class="nav-text">1.被动更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-轮询"><span class="nav-number">2.2.</span> <span class="nav-text">2.轮询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-利用redis做延迟消息队列（改进方法2中的不足）"><span class="nav-number">2.3.</span> <span class="nav-text">3.利用redis做延迟消息队列（改进方法2中的不足）</span></a></li></ol></li></ol></div>
             
 
           </div>

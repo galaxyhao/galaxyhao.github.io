@@ -297,6 +297,159 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://galaxyhao.github.io/2018/03/09/关于订单状态自动更新的思考和实现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LRHest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/bb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Renhao Li's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/09/关于订单状态自动更新的思考和实现/" itemprop="url">关于订单状态自动更新的思考和实现</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-09T13:32:32+08:00">2018-03-09</time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/系统架构/" itemprop="url" rel="index"><span itemprop="name">系统架构</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="问题描述（背景）"><a href="#问题描述（背景）" class="headerlink" title="问题描述（背景）"></a>问题描述（背景）</h1><p>在所有电商交易平台中都会遇到订单状态需要自动流转的问题，比如用户下单未付款30分钟后自动关闭订单、在商家发货15天之后如用户未确认收货自动将订单变为收货状态等等。我查找了一些相关的资料，发现有很多解决方案，下面将列出几个我认为比较经典的方案。</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="1-被动更新"><a href="#1-被动更新" class="headerlink" title="1.被动更新"></a>1.被动更新</h2><p>这是最笨也是最麻烦的办法，就是在用户每一次操作时，都需要进行一个订单状态及时间的判断，假设用户一直没有对用户进行操作，那么订单的状态永远不会被更新。</p>
+<ul>
+<li>缺点：每次订单操作前都会对订单状态进行判断，假设订单数量很大时，会浪费大量资源；而且随着订单操作方法越来越多，会变得非常不好管理。</li>
+</ul>
+<h2 id="2-轮询"><a href="#2-轮询" class="headerlink" title="2.轮询"></a>2.轮询</h2><p>这也是一个比较直接的思路，可以利用Linux中的cron定时任务来定时扫订单表，取出所有需要更新状态的订单进行更新操作。</p>
+<ul>
+<li>缺点：第一个是轮序的时间粒度很难把握，粒度大的话会导致很多订单状态更新的不够及时，力度小的话或耗费大量的资源；另一个就是随着时间的增加，数据库中的订单数量会越来越多，全表扫描会占用数据库大量资源。</li>
+</ul>
+<h2 id="3-利用redis做延迟消息队列（改进方法2中的不足）"><a href="#3-利用redis做延迟消息队列（改进方法2中的不足）" class="headerlink" title="3.利用redis做延迟消息队列（改进方法2中的不足）"></a>3.利用redis做延迟消息队列（改进方法2中的不足）</h2><p>由于最近学了redis，就在思考怎么使用redis来解决这个问题，毕竟相同配置下的redis的QPS/TPS要远远大于mysql的，而且也不能像方法2中的那样毫无区分的进行全表扫描，那样不但效率低而且会浪费大量的资源。能不能只把有可能会进行自动更新状态的订单放到redis中呢，其实这样就是一个延迟消息队列的雏形了。那么还有没有需要改进的地方呢，上面说到轮询的时间粒度是很难把握的，那能不能用动态的时间扫一个队列呢？我们知道redis中有一个叫做score set(有序集合)的数据类型，我们可以把要更新的时间写到有序集合的score中，一个有序集合按照由小到大排列，这样的话每个队列的第一个元素中的score就决定了我们timer定时器的休眠时间。</p>
+<p>  下面总结一下改进的地方：</p>
+<ol>
+<li>使用消息队列的结构替代方法2中的全表扫描，更多的节省了资源，提高了效率</li>
+<li>根据队列首个元素的延迟时间动态规划定时器的扫描间隔，避免无必要的扫描</li>
+<li>能够灵活的添加、删除延迟任务</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://galaxyhao.github.io/2018/03/07/Redis中的pipline/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -863,154 +1016,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://galaxyhao.github.io/2018/01/15/网络协议-底层技术/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="LRHest">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/bb.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Renhao Li's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/15/网络协议-底层技术/" itemprop="url">网络协议-底层技术</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-15T20:42:16+08:00">2018-01-15</time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/网络协议/" itemprop="url" rel="index"><span itemprop="name">网络协议</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="有线局域网"><a href="#有线局域网" class="headerlink" title="有线局域网"></a>有线局域网</h2><h3 id="以太网（Ethernet）"><a href="#以太网（Ethernet）" class="headerlink" title="以太网（Ethernet）"></a>以太网（Ethernet）</h3><ol>
-<li>以太网发送的分组称为帧，每个帧含有7个字段：前同步码、帧首定界符、目标地址、源地址、长度/类型、数据和填充、FCS(CRC)。</li>
-<li>以太网不提供任何机制来确定收到的帧，所以以太网是一种被称为不可靠的媒体。</li>
-<li><p>以太网帧长度最小为64bytes(512bits)，最大为1518bytes(12,144bits)。</p>
-<img src="/2018/01/15/网络协议-底层技术/以太网帧格式.png" title="以太网帧格式">
-</li>
-</ol>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/01/15/网络协议-底层技术/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1062,7 +1067,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1073,7 +1078,7 @@
                 
                 <div class="site-state-item site-state-categories">
                   <a href="/categories/index.html">
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1084,7 +1089,7 @@
                 
                 <div class="site-state-item site-state-tags">
                   <a href="/tags/index.html">
-                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

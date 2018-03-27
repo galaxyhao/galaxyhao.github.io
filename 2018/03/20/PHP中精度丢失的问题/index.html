@@ -380,10 +380,10 @@
 
       
         <h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>在做微信支付时，需要将浮点数（以元为单位）转换为整数（以分为单位），结果出现了匪夷所思的问题，代码如下<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$num = <span class="number">9.7</span>*<span class="number">100</span>;</div><div class="line"><span class="keyword">echo</span> $num;  <span class="comment">//结果为970</span></div><div class="line"><span class="keyword">echo</span> (int)$num;  <span class="comment">//结果为969</span></div></pre></td></tr></table></figure></p>
-<a id="more"></a>
 <h1 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h1><p>突然想到之前在学习JavaScript的时候看到IEEE754格式，浮点数操作时会出现精度丢失的问题。去看了一下官网手册，果然是这个原因。</p>
 <blockquote><p>浮点数的精度有限。尽管取决于系统，PHP 通常使用 IEEE 754 双精度格式，则由于取整而导致的最大相对误差为 1.11e-16。非基本数学运算可能会给出更大误差，并且要考虑到进行复合运算时的误差传递。<br>此外，以十进制能够精确表示的有理数如 0.1 或 0.7，无论有多少尾数都不能被内部所使用的二进制精确表示，因此不能在不丢失一点点精度的情况下转换为二进制的格式。这就会造成混乱的结果：例如，floor((0.1+0.7)*10) 通常会返回 7 而不是预期中的 8，因为该结果内部的表示其实是类似 7.9999999999999991118…。<br>所以永远不要相信浮点数结果精确到了最后一位，也永远不要比较两个浮点数是否相等。如果确实需要更高的精度，应该使用任意精度数学函数或者 gmp 函数。</p>
 </blockquote>
+<a id="more"></a>
 <h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><ol>
 <li><p>采用php中的round()函数对浮点数进行四舍五入，然后进行取整。</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">(int)round((<span class="number">0.1</span>+<span class="number">0.7</span>)*<span class="number">10</span>)</div></pre></td></tr></table></figure>
@@ -462,6 +462,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2018/03/26/centos下配置Supervisor/" rel="prev" title="centos下配置Supervisor">
+                centos下配置Supervisor <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -538,7 +542,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -549,7 +553,7 @@
                 
                 <div class="site-state-item site-state-categories">
                   <a href="/categories/index.html">
-                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -560,7 +564,7 @@
                 
                 <div class="site-state-item site-state-tags">
                   <a href="/tags/index.html">
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

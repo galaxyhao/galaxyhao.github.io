@@ -383,6 +383,7 @@
 <h1 id="RDB全量写入方式"><a href="#RDB全量写入方式" class="headerlink" title="RDB全量写入方式"></a>RDB全量写入方式</h1><p>RDB就是将整个redis中的内容dump下来，做一个快照。RDB是redis默认的持久化方式。</p>
 <h2 id="相关配置"><a href="#相关配置" class="headerlink" title="相关配置"></a>相关配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">save 900 1</div><div class="line">save 300 10</div><div class="line">save 60 10000</div><div class="line">rdbchecksum yes               #是否校验rdb文件</div><div class="line">dbfilename &quot;redis-6379.rdb&quot;   #持久化文件名称</div><div class="line">dir &quot;/data/dbs/redis/6379&quot;    #持久化数据文件存放的路径</div></pre></td></tr></table></figure>
 <p>前三行是触发RDB的条件，意思是当900秒中redis有一条数据写入就会进行RDB操作，二三行同上。</p>
+<a id="more"></a>
 <h2 id="相关命令"><a href="#相关命令" class="headerlink" title="相关命令"></a>相关命令</h2><h3 id="save"><a href="#save" class="headerlink" title="save"></a>save</h3><p>save是以阻塞的方式将redis的数据写入rdb文件，是redis主进程进行此项操作，直到该文件创建完毕的这段时间内redis将不能处理任何命令请求。</p>
 <h3 id="bgsave"><a href="#bgsave" class="headerlink" title="bgsave"></a>bgsave</h3><p>执行bgsave操作时，redis主进程会先fork一个子进程，由子进程将数据写入rdb文件。这种方式耗费的资源比save要多。</p>
 <h1 id="AOF增量写入方式"><a href="#AOF增量写入方式" class="headerlink" title="AOF增量写入方式"></a>AOF增量写入方式</h1><p>AOF类似于日志，会将对redis的所有操作写入aof文件中，方便数据的恢复。</p>
@@ -391,8 +392,45 @@
 <ul>
 <li>always策略是每提交一个修改命令都调用fsync刷新到AOF文件</li>
 <li>everysec策略是每秒钟都调用fsync将一秒内的修改刷新至AOF文件，但可能会丢失一秒以内的数据</li>
-<li>noc策略是依靠OS进行刷新，redis不主动刷新AOF<h3 id="AOF文件重写"><a href="#AOF文件重写" class="headerlink" title="AOF文件重写"></a>AOF文件重写</h3>我们知道，AOF持久化会记录redis的每一条修改指令，所以AOF文件会变得非常非常的大。因此redis实现了AOF文件重写的方法，就是会合并对相同key的操作。例如：key的值为1， INCR key操作进行了5次，AOF重写后变为SET key 6。查了相关的资料，发现这个“重写”的说法是有歧义的。AOF重写并不是对原有AOF文件进行任何写入和读取，而是根据目前的结果来用相应的语句实现。讲了这么多，redis配置文件中有关重写的配置有auto-aof-rewrite-percentage和auto-aof-rewrite-min-size。第一个的意思是达到文件增量的百分比时触发重写，默认为100%；第二个是文件大小达到指定大小触发重写，默认为64mb。<h1 id="两种持久化方式的比较"><a href="#两种持久化方式的比较" class="headerlink" title="两种持久化方式的比较"></a>两种持久化方式的比较</h1>|         | RDB |  AOF  |<br>|—      |—  | —   |<br>|恢复优先级|低   |高     |<br>|文件体积  |小   |大     |<br>|恢复速度  |快   |慢     |<br>|数据安全性|易丢数据|根据策略决定|<br>|轻重      |重   |轻     |</li>
+<li>noc策略是依靠OS进行刷新，redis不主动刷新AOF</li>
 </ul>
+<h3 id="AOF文件重写"><a href="#AOF文件重写" class="headerlink" title="AOF文件重写"></a>AOF文件重写</h3><p>我们知道，AOF持久化会记录redis的每一条修改指令，所以AOF文件会变得非常非常的大。因此redis实现了AOF文件重写的方法，就是会合并对相同key的操作。例如：key的值为1， INCR key操作进行了5次，AOF重写后变为SET key 6。查了相关的资料，发现这个“重写”的说法是有歧义的。AOF重写并不是对原有AOF文件进行任何写入和读取，而是根据目前的结果来用相应的语句实现。讲了这么多，redis配置文件中有关重写的配置有auto-aof-rewrite-percentage和auto-aof-rewrite-min-size。第一个的意思是达到文件增量的百分比时触发重写，默认为100%；第二个是文件大小达到指定大小触发重写，默认为64mb。</p>
+<h1 id="两种持久化方式的比较"><a href="#两种持久化方式的比较" class="headerlink" title="两种持久化方式的比较"></a>两种持久化方式的比较</h1><table>
+<thead>
+<tr>
+<th></th>
+<th>RDB</th>
+<th>AOF</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>恢复优先级</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>文件体积</td>
+<td>小</td>
+<td>大</td>
+</tr>
+<tr>
+<td>恢复速度</td>
+<td>快</td>
+<td>慢</td>
+</tr>
+<tr>
+<td>数据安全性</td>
+<td>易丢数据</td>
+<td>根据策略决定</td>
+</tr>
+<tr>
+<td>轻重</td>
+<td>重</td>
+<td>轻</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>

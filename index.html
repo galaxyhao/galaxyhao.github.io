@@ -297,6 +297,198 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://galaxyhao.github.io/2018/05/23/数据结构-静态链表/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LRHest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/bb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Renhao Li's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/23/数据结构-静态链表/" itemprop="url">静态链表</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-23T17:44:31+08:00">2018-05-23</time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据结构/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="什么是静态链表"><a href="#什么是静态链表" class="headerlink" title="什么是静态链表"></a>什么是静态链表</h1><p>静态链表是使用数组描述的链表，在使用C语言中的结构体数组定义时，结构体变量中包括数据data和游标cur。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//---------线性表的静态单链表存储结构--------</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXSIZE 100</span></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">    ElemType data;</div><div class="line">    <span class="keyword">int</span> cur;</div><div class="line">&#125;SLinkList[MAXSIZE];</div></pre></td></tr></table></figure></p>
+<h1 id="对数组的特殊处理"><a href="#对数组的特殊处理" class="headerlink" title="对数组的特殊处理"></a>对数组的特殊处理</h1><ul>
+<li>数组的第一个和最后一个元素做特殊处理，他们的data不存放数据。</li>
+<li>通常把未使用的数组元素称为备用链表。</li>
+<li>数组的第一个元素，即下标为0的那个元素cur就存放备用链表的第一个节点的下标。</li>
+<li>数组的最后一个元素，及下标为MAXSIZE-1的cur则存放的第一个有数值的元素的下标，相当于单链表中的头结点作用。</li>
+<li>已使用的链表的最后一个元素游标为0。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>下标</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>…</th>
+<th>999</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据</td>
+<td></td>
+<td>A</td>
+<td>C</td>
+<td>D</td>
+<td>E</td>
+<td></td>
+<td></td>
+<td>…</td>
+<td></td>
+</tr>
+<tr>
+<td>游标</td>
+<td>5</td>
+<td>2</td>
+<td>3</td>
+<td>4</td>
+<td>0</td>
+<td>6</td>
+<td>7</td>
+<td>…</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>如上表，下标为0的元素中数据为空，游标为5，指向备用链表的首元素，下标为1,2,3,4的元素数据不为空，游标指向后继元素；最后一个元素下标为999，数据为空，游标指向首链表首元素下表为1。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/05/23/数据结构-静态链表/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://galaxyhao.github.io/2018/03/27/Redis持久化/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -852,152 +1044,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://galaxyhao.github.io/2018/03/09/关于订单状态自动更新的思考和实现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="LRHest">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/bb.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Renhao Li's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/09/关于订单状态自动更新的思考和实现/" itemprop="url">关于订单状态自动更新的思考和实现</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-09T13:32:32+08:00">2018-03-09</time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/系统架构/" itemprop="url" rel="index"><span itemprop="name">系统架构</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="问题描述（背景）"><a href="#问题描述（背景）" class="headerlink" title="问题描述（背景）"></a>问题描述（背景）</h1><p>在所有电商交易平台中都会遇到订单状态需要自动流转的问题，比如用户下单未付款30分钟后自动关闭订单、在商家发货15天之后如用户未确认收货自动将订单变为收货状态等等。我查找了一些相关的资料，发现有很多解决方案，下面将列出几个我认为比较经典的方案。</p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="1-被动更新"><a href="#1-被动更新" class="headerlink" title="1.被动更新"></a>1.被动更新</h2><p>这是最笨也是最麻烦的办法，就是在用户每一次操作时，都需要进行一个订单状态及时间的判断，假设用户一直没有对用户进行操作，那么订单的状态永远不会被更新。</p>
-<ul>
-<li>缺点：每次订单操作前都会对订单状态进行判断，假设订单数量很大时，会浪费大量资源；而且随着订单操作方法越来越多，会变得非常不好管理。</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/03/09/关于订单状态自动更新的思考和实现/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1049,7 +1095,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1060,7 +1106,7 @@
                 
                 <div class="site-state-item site-state-categories">
                   <a href="/categories/index.html">
-                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1071,7 +1117,7 @@
                 
                 <div class="site-state-item site-state-tags">
                   <a href="/tags/index.html">
-                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

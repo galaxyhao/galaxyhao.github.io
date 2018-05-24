@@ -122,7 +122,7 @@
 
 
 
-  <title>代码大全-表驱动法 | Renhao Li's Blog</title>
+  <title>分类: 数据结构 | Renhao Li's Blog</title>
   
 
 
@@ -168,7 +168,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -280,257 +280,59 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block category">
 
-  
+    <div id="posts" class="posts-collapse">
+      <div class="collection-title">
+        <h1>数据结构<small>分类</small>
+        </h1>
+      </div>
 
-  
-  
-  
-
-  
+      
+        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://galaxyhao.github.io/2017/11/08/代码大全-表驱动法/">
+    <header class="post-header">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="LRHest">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/bb.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Renhao Li's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
+            <a class="post-title-link" href="/2018/05/23/数据结构-静态链表/" itemprop="url">
+              
+                <span itemprop="name">静态链表</span>
+              
+            </a>
         
-          <h1 class="post-title" itemprop="name headline">代码大全-表驱动法</h1>
-        
+      </h2>
 
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-08T13:29:36+08:00">2017-11-08</time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/读书笔记/" itemprop="url" rel="index"><span itemprop="name">读书笔记</span></a></span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/读书笔记/代码大全/" itemprop="url" rel="index"><span itemprop="name">代码大全</span></a></span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/读书笔记/代码大全/表驱动法/" itemprop="url" rel="index"><span itemprop="name">表驱动法</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="什么是表驱动法？"><a href="#什么是表驱动法？" class="headerlink" title="什么是表驱动法？"></a>什么是表驱动法？</h2><p>表驱动法是一种编程模式 ———— 从表里查找信息而不使用逻辑判断语句。所有能够用逻辑判断语句来选择的事物，都可以使用查表来解决。表驱动法可以在复杂逻辑判断中使用。</p>
-<h2 id="使用表驱动法的两个问题"><a href="#使用表驱动法的两个问题" class="headerlink" title="使用表驱动法的两个问题"></a>使用表驱动法的两个问题</h2><h3 id="怎样从表中查询条目（如何设定表头也就是键）？"><a href="#怎样从表中查询条目（如何设定表头也就是键）？" class="headerlink" title="怎样从表中查询条目（如何设定表头也就是键）？"></a>怎样从表中查询条目（如何设定表头也就是键）？</h3><ul>
-<li>直接访问</li>
-<li>索引访问</li>
-<li>阶梯访问</li>
-</ul>
-<h3 id="应该在表里面存些什么（如何设定表的内容也就是值）？"><a href="#应该在表里面存些什么（如何设定表的内容也就是值）？" class="headerlink" title="应该在表里面存些什么（如何设定表的内容也就是值）？"></a>应该在表里面存些什么（如何设定表的内容也就是值）？</h3><ul>
-<li>数据</li>
-<li>描述动作的代码</li>
-<li>对实现动作的子程序的引用<a id="more"></a>
-</li>
-</ul>
-<h2 id="直接访问表"><a href="#直接访问表" class="headerlink" title="直接访问表"></a>直接访问表</h2><img src="/2017/11/08/代码大全-表驱动法/直接访问表.png" title="直接访问表">
-<p>直接访问表代替了更为复杂的逻辑控制结构。无需绕圈子就能直接在表里面找到想要的信息。<br>直接访问表主要的问题就是确定查询键值，有以下三种情况：</p>
-<ul>
-<li>复制信息从而能够直接使用键值</li>
-<li>转换键值以使其能够直接使用</li>
-<li>把键值转换提取成独立子程序</li>
-</ul>
-<h2 id="索引访问表"><a href="#索引访问表" class="headerlink" title="索引访问表"></a>索引访问表</h2><img src="/2017/11/08/代码大全-表驱动法/索引访问表.png" title="索引访问表">
-<p>索引访问表的使用情景主要是有时候，只用一个简单的数学运算还无法把数据转换成表键值，这类情况的一部分可以通过使用索引访问的方法。索引表不是直接访问，而是经过居间的索引去访问。</p>
-<h3 id="索引访问的优点"><a href="#索引访问的优点" class="headerlink" title="索引访问的优点"></a>索引访问的优点</h3><ul>
-<li>如果主查询表中的每一条记录都很大，那么创建一个浪费了很多空间的索引数组所用的空间，要比创建一个浪费了很多空间的主查询所有的空间要小得多</li>
-<li>即使用了索引后没有节省内存空间，操作位于索引中的记录也要比操作位于主表中的记录更方便廉价</li>
-<li>表查询技术在可维护性上具有的普遍优点，编写到表里面的数据比嵌入代码中的数据更容易维护</li>
-</ul>
-<h2 id="阶梯访问表"><a href="#阶梯访问表" class="headerlink" title="阶梯访问表"></a>阶梯访问表</h2><img src="/2017/11/08/代码大全-表驱动法/阶梯访问表.png" title="阶梯访问表">
-<p>阶梯结构的基本想法是表中的记录对于不同的数据范围有效，而不是对不同的数据点有效。这种方法不像索引结构直接，但是要比索引访问节省空间。</p>
-<h3 id="使用阶梯技术时要注意的细节："><a href="#使用阶梯技术时要注意的细节：" class="headerlink" title="使用阶梯技术时要注意的细节："></a>使用阶梯技术时要注意的细节：</h3><ul>
-<li>留心断点</li>
-<li>确认循环能在找出最高一级的区间之后恰当的终止，同时确保正确地处理了两边的边界</li>
-<li>考虑使用二分法查找取代顺序查找</li>
-<li>阶梯访问大列表时顺序查找可能会比较耗时，可以采用二分的方法来提高效率</li>
-<li>考虑用索引访问来取代阶梯技术</li>
-<li>阶梯方法中的查找操作可能会比较耗时，如果执行速度更重要，可以考虑使用索引访问取代阶梯访问。</li>
-</ul>
-
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-      <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>打赏</span>
-  </button>
-  <div id="QR" style="display: none;">
-
-    
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/images/wechatpay.png" alt="LRHest 微信支付"/>
-        <p>微信支付</p>
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2018-05-23T17:44:31+08:00"
+              content="2018-05-23" >
+          05-23
+        </time>
       </div>
-    
 
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/images/alipay.png" alt="LRHest 支付宝"/>
-        <p>支付宝</p>
-      </div>
-    
-
-    
-
-  </div>
-</div>
-
-      </div>
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/代码大全/" rel="tag"># 代码大全</a>
-          
-            <a href="/tags/读书笔记/" rel="tag"># 读书笔记</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/11/06/七牛云回调鉴权问题/" rel="next" title="七牛云回调鉴权问题">
-                <i class="fa fa-chevron-left"></i> 七牛云回调鉴权问题
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/15/网络协议-底层技术/" rel="prev" title="网络协议-底层技术">
-                网络协议-底层技术 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
-
-    <div class="post-spread">
       
     </div>
+
   </div>
-
-
-          </div>
-          
+  
+  
+  
 
   
 
 
+
+          </div>
+          
 
         </div>
         
@@ -551,17 +353,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -655,22 +448,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是表驱动法？"><span class="nav-number">1.</span> <span class="nav-text">什么是表驱动法？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用表驱动法的两个问题"><span class="nav-number">2.</span> <span class="nav-text">使用表驱动法的两个问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#怎样从表中查询条目（如何设定表头也就是键）？"><span class="nav-number">2.1.</span> <span class="nav-text">怎样从表中查询条目（如何设定表头也就是键）？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应该在表里面存些什么（如何设定表的内容也就是值）？"><span class="nav-number">2.2.</span> <span class="nav-text">应该在表里面存些什么（如何设定表的内容也就是值）？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直接访问表"><span class="nav-number">3.</span> <span class="nav-text">直接访问表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引访问表"><span class="nav-number">4.</span> <span class="nav-text">索引访问表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#索引访问的优点"><span class="nav-number">4.1.</span> <span class="nav-text">索引访问的优点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阶梯访问表"><span class="nav-number">5.</span> <span class="nav-text">阶梯访问表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用阶梯技术时要注意的细节："><span class="nav-number">5.1.</span> <span class="nav-text">使用阶梯技术时要注意的细节：</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -802,10 +579,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=6.0.1"></script>
-
-
 
   
 

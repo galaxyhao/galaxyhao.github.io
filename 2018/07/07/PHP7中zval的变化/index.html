@@ -122,7 +122,7 @@
 
 
 
-  <title>归档 | Renhao Li's Blog</title>
+  <title>PHP7中zval的变化 | Renhao Li's Blog</title>
   
 
 
@@ -168,7 +168,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -280,230 +280,225 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://galaxyhao.github.io/2018/07/07/PHP7中zval的变化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LRHest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/bb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Renhao Li's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">PHP7中zval的变化</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-07T16:17:59+08:00">2018-07-07</time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 20 篇日志。 继续努力。
-      </span>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a></span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/07/PHP7中zval的变化/" itemprop="url">
-              
-                <span itemprop="name">PHP7中zval的变化</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-07T16:17:59+08:00"
-              content="2018-07-07" >
-          07-07
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/06/转-变量在PHP7内部的实现（二）/" itemprop="url">
-              
-                <span itemprop="name">[转]变量在PHP7内部的实现（二）</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-06T16:17:59+08:00"
-              content="2018-07-06" >
-          07-06
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/06/转-变量在PHP7内部的实现（一）/" itemprop="url">
-              
-                <span itemprop="name">[转]变量在 PHP7 内部的实现（一）</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-06T16:16:40+08:00"
-              content="2018-07-06" >
-          07-06
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>前几天在学习PHP引用变量的时候敲测试代码发现了一个很神奇的现象。在使用Xdebug扩展中的xdebug_debug_zval()函数查看变量的引用计数refcount的时候，发现PHP7和PHP5.4输出的结果竟然不一样，而且PHP7中输出的refcount竟然是0。具体测试代码和输出结果如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">echo</span> <span class="string">'Version: '</span>.PHP_VERSION.PHP_EOL;</div><div class="line">debug_zval_dump($a);</div><div class="line">$a = <span class="string">'Hello World'</span>;</div><div class="line">xdebug_debug_zval(<span class="string">'a'</span>);</div></pre></td></tr></table></figure></p>
+<p>PHP5.6输出：</p>
+<blockquote>
+<p>Version: 5.6.27<br>string(11) “Hello World” refcount(2)<br>a: (refcount=1, is_ref=0)=’Hello World’</p>
+</blockquote>
+<p>PHP7.0输出：</p>
+<blockquote>
+<p>Version: 7.0.12<br>string(11) “Hello World” refcount(1)<br>a: (refcount=0, is_ref=0)=’Hello World’</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h1><p>经过坚持不懈的查找相关资料，终于在万能的stackoverflow中找到<a href="https://stackoverflow.com/a/34772354" target="_blank" rel="noopener">nikic大佬关于这个问题的回答</a>，回答如下:<br><blockquote><p>In PHP 7 a zval can be reference counted or not. There is a flag in the zval structure which determined this.</p>
+<p>There are some types which are never refcounted. These types are null, bool, int and double.</p>
+<p>There are other types which are always refcounted. These are objects, resources and references.</p>
+<p>And then there are types, which are sometimes refcounted. Those are strings and arrays.</p>
+<p>For strings the not-refcounted variant is called an “interned string”. If you’re using an NTS (not thread-safe) PHP 7 build, which you typically are, all string literals in your code will be interned. These interned strings are deduplicated (i.e. there is only one interned string with a certain content) and are guaranteed to exist for the full duration of the request, so there is no need to use reference counting for them. If you use opcache, these strings will live in shared memory, in which case you can’t use reference counting for them (as our refcounting mechanism is non-atomic). Interned strings have a dummy refcount of 1, which is what you’re seeing here.</p>
+<p>For arrays the not-refcounted variant is called an “immutable array”. If you use opcache, then constant array literals in your code will be converted into immutable arrays. Once again, these live in shared memory and as such must not use refcounting. Immutable arrays have a dummy refcount of 2, as it allows us to optimize certain separation paths.</p>
+</blockquote><br>原谅我用蹩脚的英语水平翻译一下：<br>在PHP7中，zval结构体中有一个标志来决定zval是否能被引用计数。<br>像null,bool,int,double这些变量类型永远不会被引用计数（这个地方可能有些不太严谨，鸟哥的博客中写道PHP7中zval的类型共有18种，其中IS_LONG,IS_DOUBLE,IS_NULL,IS_FALSE,IS_TRUE不会使用引用计数）。<br>像object,resources,references这些变量类型总是会使用引用计数。<br>然而，像array，strings这些变量类型有时会使用引用计数，有时则不会。<br>不使用引用计数的字符串类型被叫做“interned string（保留字符串）”。如果你使用一个NTS(非线程安全)的PHP7来构建，通常情况下，代码中的所有字符串文字都将是限定的。这些保留字符串都是不可重复的（即，只会存在一个含有特定内容的保留字符串）。它会一直存在直到请求结束时才销毁，所以也就无需进行引用计数。如果使用了 opcache 的话，保留字符会被存储在共享内存中，在这种情况下，无法使用引用计数（因为我们引用计数的机制是非原子的）。保留字符串的伪引用计数为1。<br>对于数组来说，无引用计数的变量称为“不可变数组”。如果使用opcache，则代码中的常量数组文字将转换为不可变数组。同样的，他们存在于共享内存中，因此不得使用引用计数。不可变数组的伪引用数为2，因为它允许我们优化某些分离路径。<br>另外，关于PHP7中zval变化更加详细的阐述请看我转载的两篇博文：<br><a href="/2018/07/06/转-变量在PHP7内部的实现（一）/">【转】变量在PHP7内部的实现（一）</a><br><a href="/2018/07/06/转-变量在PHP7内部的实现（二）/">【转】变量在PHP7内部的实现（一）</a></p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/03/PHP中的引用变量和变量类型/" itemprop="url">
-              
-                <span itemprop="name">PHP中的引用变量和变量类型</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-03T21:01:05+08:00"
-              content="2018-07-03" >
-          07-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/06/21/Java中到底是值传递还是引用传递？/" itemprop="url">
-              
-                <span itemprop="name">Java中到底是值传递还是引用传递？</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-06-21T20:59:44+08:00"
-              content="2018-06-21" >
-          06-21
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.png" alt="LRHest 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.png" alt="LRHest 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
+          
+            <a href="/tags/PHP内核/" rel="tag"># PHP内核</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/06/转-变量在PHP7内部的实现（二）/" rel="next" title="[转]变量在PHP7内部的实现（二）">
+                <i class="fa fa-chevron-left"></i> [转]变量在PHP7内部的实现（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
-
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/2018/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2018/page/4/">4</a><a class="extend next" rel="next" href="/archives/2018/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
+  </article>
 
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzQwNC8xMzkzOA=="></div>
+    </div>
+
+  
+
+
 
         </div>
         
@@ -524,8 +519,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -619,6 +623,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决问题"><span class="nav-number">2.</span> <span class="nav-text">解决问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -759,6 +779,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.1"></script>
+
+
 
   
 
@@ -783,6 +807,17 @@
 
 
 
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
   
 
 

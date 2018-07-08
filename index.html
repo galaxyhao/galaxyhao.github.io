@@ -297,6 +297,156 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://galaxyhao.github.io/2018/07/07/PHP7中zval的变化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="LRHest">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/bb.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Renhao Li's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/07/PHP7中zval的变化/" itemprop="url">PHP7中zval的变化</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-07T16:17:59+08:00">2018-07-07</time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>前几天在学习PHP引用变量的时候敲测试代码发现了一个很神奇的现象。在使用Xdebug扩展中的xdebug_debug_zval()函数查看变量的引用计数refcount的时候，发现PHP7和PHP5.4输出的结果竟然不一样，而且PHP7中输出的refcount竟然是0。具体测试代码和输出结果如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">echo</span> <span class="string">'Version: '</span>.PHP_VERSION.PHP_EOL;</div><div class="line">debug_zval_dump($a);</div><div class="line">$a = <span class="string">'Hello World'</span>;</div><div class="line">xdebug_debug_zval(<span class="string">'a'</span>);</div></pre></td></tr></table></figure></p>
+<p>PHP5.6输出：</p>
+<blockquote>
+<p>Version: 5.6.27<br>string(11) “Hello World” refcount(2)<br>a: (refcount=1, is_ref=0)=’Hello World’</p>
+</blockquote>
+<p>PHP7.0输出：</p>
+<blockquote>
+<p>Version: 7.0.12<br>string(11) “Hello World” refcount(1)<br>a: (refcount=0, is_ref=0)=’Hello World’</p>
+</blockquote>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/07/07/PHP7中zval的变化/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://galaxyhao.github.io/2018/07/06/转-变量在PHP7内部的实现（二）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -539,156 +689,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/07/06/转-变量在PHP7内部的实现（一）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://galaxyhao.github.io/2018/07/05/PHP7中zval的变化/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="LRHest">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/bb.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Renhao Li's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/05/PHP7中zval的变化/" itemprop="url">PHP7中zval的变化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-05T21:43:40+08:00">2018-07-05</time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/PHP/" itemprop="url" rel="index"><span itemprop="name">PHP</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>前几天在学习PHP引用变量的时候敲测试代码发现了一个很神奇的现象。在使用Xdebug扩展中的xdebug_debug_zval()函数查看变量的引用计数refcount的时候，发现PHP7和PHP5.4输出的结果竟然不一样，而且PHP7中输出的refcount竟然是0。具体测试代码和输出结果如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">echo</span> <span class="string">'Version: '</span>.PHP_VERSION.PHP_EOL;</div><div class="line">debug_zval_dump($a);</div><div class="line">$a = <span class="string">'Hello World'</span>;</div><div class="line">xdebug_debug_zval(<span class="string">'a'</span>);</div></pre></td></tr></table></figure></p>
-<p>PHP5.6输出：</p>
-<blockquote>
-<p>Version: 5.6.27<br>string(11) “Hello World” refcount(2)<br>a: (refcount=1, is_ref=0)=’Hello World’</p>
-</blockquote>
-<p>PHP7.0输出：</p>
-<blockquote>
-<p>Version: 7.0.12<br>string(11) “Hello World” refcount(1)<br>a: (refcount=0, is_ref=0)=’Hello World’</p>
-</blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/07/05/PHP7中zval的变化/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>

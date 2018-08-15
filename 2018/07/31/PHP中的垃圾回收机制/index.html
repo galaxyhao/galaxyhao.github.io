@@ -78,17 +78,17 @@
 
 
 
-<meta name="description" content="404">
+<meta name="description" content="死都不怕，就怕不安逸，命都不要，就要安逸。">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Renhao Li&#39;s Blog">
-<meta property="og:url" content="https://galaxyhao.github.io/404.html">
+<meta property="og:title" content="标签">
+<meta property="og:url" content="https://galaxyhao.github.io/tags/index.html">
 <meta property="og:site_name" content="Renhao Li&#39;s Blog">
-<meta property="og:description" content="404">
+<meta property="og:description" content="死都不怕，就怕不安逸，命都不要，就要安逸。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-21T07:14:55.115Z">
+<meta property="og:updated_time" content="2017-10-21T08:27:32.443Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Renhao Li&#39;s Blog">
-<meta name="twitter:description" content="404">
+<meta name="twitter:title" content="标签">
+<meta name="twitter:description" content="死都不怕，就怕不安逸，命都不要，就要安逸。">
 
 
 
@@ -116,7 +116,7 @@
 
 
 
-  <link rel="canonical" href="https://galaxyhao.github.io/404.html"/>
+  <link rel="canonical" href="https://galaxyhao.github.io/tags/"/>
 
 
 
@@ -386,7 +386,9 @@
 <h1 id="回收周期-Collecting-Cycles"><a href="#回收周期-Collecting-Cycles" class="headerlink" title="回收周期(Collecting Cycles)"></a>回收周期(Collecting Cycles)</h1><p>自PHP5.3之后，使用<a href="https://researcher.watson.ibm.com/researcher/files/us-bacon/Bacon01Concurrent.pdf" target="_blank" rel="noopener">引用计数系统中的同步周期回收(Concurrent Cycle Collection in Reference Counted Systems)</a>这种方法来处理内存泄露问题。这个算法比较复杂，它的基本规则就是如果一个引用计数增加，它将继续被使用，当然就不再在垃圾中。如果引用计数减少到零，所在变量容器将被清除(free)。就是说，仅仅在引用计数减少到非零值时，才会产生垃圾周期(garbage cycle)。其次，在一个垃圾周期中，通过检查引用计数是否减1，并且检查哪些变量容器的引用次数是零，来发现哪部分是垃圾。<br><img src="/2018/07/31/PHP中的垃圾回收机制/回收周期.png"><br>为避免不得不检查所有引用计数可能减少的垃圾周期，这个算法把所有可能根(possible roots 都是zval变量容器),放在根缓冲区(root buffer)中(用紫色来标记，称为疑似垃圾)，这样可以同时确保每个可能的垃圾根(possible garbage root)在缓冲区中只出现一次。仅仅在根缓冲区满了时，才对缓冲区内部所有不同的变量容器执行垃圾回收操作。看上图的步骤 A。</p>
 <p>在步骤 B 中，模拟删除每个紫色变量。模拟删除时可能将不是紫色的普通变量引用数减”1”，如果某个普通变量引用计数变成0了，就对这个普通变量再做一次模拟删除。每个变量只能被模拟删除一次，模拟删除后标记为灰（原文说确保不会对同一个变量容器减两次”1”,不对的吧）。</p>
 <p>在步骤 C 中，模拟恢复每个紫色变量。恢复是有条件的，当变量的引用计数大于0时才对其做模拟恢复。同样每个变量只能恢复一次，恢复后标记为黑，基本就是步骤 B 的逆运算。这样剩下的一堆没能恢复的就是该删除的蓝色节点了，在步骤 D 中遍历出来真的删除掉。</p>
-<p>算法中都是模拟删除、模拟恢复、真的删除，都使用简单的遍历即可（最典型的深搜遍历）。复杂度为执行模拟操作的节点数正相关，不只是紫色的那些疑似垃圾变量。<br>总结来看，有以下三点特性：</p>
+<p>算法中都是模拟删除、模拟恢复、真的删除，都使用简单的遍历即可（最典型的深搜遍历）。复杂度为执行模拟操作的节点数正相关，不只是紫色的那些疑似垃圾变量。</p>
+<p>以上的配图和步骤摘自PHP官方手册，估计大多数人也没看懂。我总结一下就是：<strong>对zval中的每一个元素的refcount进行-1操作，然后将减为0的元素模拟删除，如果此时zval的refcount变成了0，就说明仅仅只有它内部的元素指向了它自己，也就是发生了循环引用，这时候就可以将这个zval大胆的删掉了。</strong></p>
+<p>最后总结来看，PHP的GC机制有以下三点特性：</p>
 <ol>
 <li>并不是每次refcount减少时都进入回收周期，只有根缓冲区满额后在开始垃圾回收。</li>
 <li>可以解决循环引用问题。</li>

@@ -78,17 +78,17 @@
 
 
 
-<meta name="description" content="死都不怕，就怕不安逸，命都不要，就要安逸。">
+<meta name="description" content="404">
 <meta property="og:type" content="website">
-<meta property="og:title" content="标签">
-<meta property="og:url" content="https://galaxyhao.github.io/tags/index.html">
+<meta property="og:title" content="Renhao Li&#39;s Blog">
+<meta property="og:url" content="https://galaxyhao.github.io/404.html">
 <meta property="og:site_name" content="Renhao Li&#39;s Blog">
-<meta property="og:description" content="死都不怕，就怕不安逸，命都不要，就要安逸。">
+<meta property="og:description" content="404">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-10-21T08:27:32.443Z">
+<meta property="og:updated_time" content="2017-10-21T07:14:55.115Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="标签">
-<meta name="twitter:description" content="死都不怕，就怕不安逸，命都不要，就要安逸。">
+<meta name="twitter:title" content="Renhao Li&#39;s Blog">
+<meta name="twitter:description" content="404">
 
 
 
@@ -116,7 +116,7 @@
 
 
 
-  <link rel="canonical" href="https://galaxyhao.github.io/tags/"/>
+  <link rel="canonical" href="https://galaxyhao.github.io/404.html"/>
 
 
 
@@ -379,7 +379,7 @@
       
 
       
-        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>前几天在研究PHP引用变量的时候敲测试代码发现了一个很神奇的现象。在使用Xdebug扩展中的xdebug_debug_zval()函数查看变量的引用计数refcount的时候，发现PHP7和PHP5.4输出的结果竟然不一样，而且PHP7中输出的refcount竟然是0。具体测试代码和输出结果如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">echo</span> <span class="string">'Version: '</span>.PHP_VERSION.PHP_EOL;</div><div class="line">debug_zval_dump($a);</div><div class="line">$a = <span class="string">'Hello World'</span>;</div><div class="line">xdebug_debug_zval(<span class="string">'a'</span>);</div></pre></td></tr></table></figure></p>
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>前几天在研究PHP引用变量的时候敲测试代码发现了一个很神奇的现象。在使用Xdebug扩展中的xdebug_debug_zval()函数查看变量的引用计数refcount的时候，发现PHP7和PHP5.4输出的结果竟然不一样，而且PHP7中输出的refcount竟然是0。具体测试代码和输出结果如下：<br><figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">echo</span> <span class="string">'Version: '</span>.PHP_VERSION.PHP_EOL;</div><div class="line">$a = <span class="string">'Hello World'</span>;</div><div class="line">debug_zval_dump($a);</div><div class="line">xdebug_debug_zval(<span class="string">'a'</span>);</div></pre></td></tr></table></figure></p>
 <p>PHP5.6输出：</p>
 <blockquote>
 <p>Version: 5.6.27<br>string(11) “Hello World” refcount(2)<br>a: (refcount=1, is_ref=0)=’Hello World’</p>

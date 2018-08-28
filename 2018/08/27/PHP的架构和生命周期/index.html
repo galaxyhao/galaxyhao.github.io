@@ -379,7 +379,7 @@
       
 
       
-        <h1 id="PHP的架构"><a href="#PHP的架构" class="headerlink" title="PHP的架构"></a>PHP的架构</h1><p>从下图可以看出，php从下到上是一个4层体系：<br><img src="/2018/08/27/PHP的架构和生命周期/php-arch.jpg" title="PHP架构图"></p>
+        <h1 id="PHP的架构"><a href="#PHP的架构" class="headerlink" title="PHP的架构"></a>PHP的架构</h1><p>从下图可以看出，php从下到上是一个4层体系：<br><img src="/2018/08/27/PHP的架构和生命周期/php-arch.jpg" title="PHP架构图"><br><a id="more"></a></p>
 <ol>
 <li><p><strong>Zend引擎</strong><br>Zend整体用纯c实现，是php的内核部分，它将php代码翻译（词法、语法解析等一系列编译过程）为可执行opcode的处理并实现相应的处理方法、实现了基本的数据结构（如hashtable、oo）、内存分配及管理、提供了相应的api方法供外部调用，是一切的核心，所有的外围功能均围绕zend实现。</p>
 </li>

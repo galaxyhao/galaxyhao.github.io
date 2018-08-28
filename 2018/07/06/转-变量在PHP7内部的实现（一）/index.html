@@ -433,7 +433,7 @@
 <p>那么 PHP 怎么知道 zval 是否正在计数呢？不是所有的数据类型都能知道，因为有些类型（比如字符串或数组）并不是总需要进行引用计数。所以 <code>type_info</code> 字段就是用来记录 zval 是否在进行计数的，这个字段的值有以下几种情况：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> IS_TYPE_CONSTANT            (1&lt;&lt;0)   <span class="comment">/* special */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> IS_TYPE_IMMUTABLE           (1&lt;&lt;1)   <span class="comment">/* special */</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> IS_TYPE_REFCOUNTED          (1&lt;&lt;2)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> IS_TYPE_COLLECTABLE         (1&lt;&lt;3)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> IS_TYPE_COPYABLE            (1&lt;&lt;4)</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> IS_TYPE_SYMBOLTABLE         (1&lt;&lt;5)   <span class="comment">/* special */</span></span></div></pre></td></tr></table></figure>
 <p><em>注：在 7.0.0 的正式版本中，上面这一段宏定义的注释这几个宏是供 <code>zval.u1.v.type_flags</code> 使用的。这应该是注释的错误，因为这个上述字段是 <code>zend_uchar</code> 类型。</em></p>
-<p><code>type_info</code> 的三个主要的属性就是『可计数』（refcounted）、『可回收』（collectable）和『可复制』（copyable）。计数的问题上面已经提过了。『可回收』用于标记 zval 是否参与循环，不如字符串通常是可计数的，但是你却没办法给字符串制造一个循环引用的情况。</p>
+<p><code>type_info</code> 的三个主要的属性就是『可计数』（refcounted）、『可回收』（collectable）和『可复制』（copyable）。计数的问题上面已经提过了。『可回收』用于标记 zval 是否参与循环，比如字符串通常是可计数的，但是你却没办法给字符串制造一个循环引用的情况。</p>
 <p>是否可复制用于表示在复制时是否需要在复制时制造（原文用的 “duplication” 来表述，用中文表达出来可能不是很好理解）一份一模一样的实体。”duplication” 属于深度复制，比如在复制数组时，不仅仅是简单增加数组的引用计数，而是制造一份全新值一样的数组。但是某些类型（比如对象和资源）即使 “duplication” 也只能是增加引用计数，这种就属于不可复制的类型。这也和对象和资源现有的语义匹配（现有，PHP7 也是这样，不单是 PHP5）。</p>
 <p>下面的表格上标明了不同的类型会使用哪些标记（<code>x</code> 标记的都是有的特性）。『简单类型』（simple types）指的是整型或布尔类型这些不使用指针指向一个结构体的类型。下表中也有『不可变』（immutable）的标记，它用来标记不可变数组的，这个在下一部分再详述。</p>
 <p><em>interned string（保留字符）在这之前没有提过，其实就是函数名、变量名等无需计数、不可重复的字符串。</em></p>
@@ -485,35 +485,6 @@
 
     
 
-    
-      <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>打赏</span>
-  </button>
-  <div id="QR" style="display: none;">
-
-    
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/images/wechatpay.png" alt="LRHest 微信支付"/>
-        <p>微信支付</p>
-      </div>
-    
-
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/images/alipay.png" alt="LRHest 支付宝"/>
-        <p>支付宝</p>
-      </div>
-    
-
-    
-
-  </div>
-</div>
-
-      </div>
     
 
     
@@ -632,7 +603,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-count">22</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -654,7 +625,7 @@
                 
                 <div class="site-state-item site-state-tags">
                   <a href="/tags/index.html">
-                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-count">19</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
